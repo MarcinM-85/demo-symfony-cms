@@ -1,0 +1,9 @@
+twig:
+    file_name_pattern: '*.twig'
+    globals: 
+        _env_secret: 'Twig-%env(APP_MY_ENV_SECRET)%'
+        _env_encrypt_secret: '%env(SODIUM_ENCRYPT_SECRET)%'
+
+when@test:
+    twig:
+        strict_variables: true

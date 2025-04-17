@@ -50,3 +50,11 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+nbproject
+
+# Zmienne środowiskowe lokalne
+/.env.local
+/.env.prod.local
+
+# Produkcyjny klucz deszyfrujacy
+/config/secrets/prod/prod.decrypt.private.php
