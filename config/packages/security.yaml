@@ -4,26 +4,50 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        app_firm_provider:
+            entity:
+                class: App\Entity\Firma
+                property: email
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: 
+            - ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        admin:
+            pattern: ^/admin
+            provider: app_user_provider
+            custom_authenticator: App\Admin\Security\UserAuthenticator
+            logout:
+                path: /admin/logout
+                target: /admin
+#        profile:
+#            pattern: ^/profile
+#            provider: app_firm_provider
+#            custom_authenticator: App\Security\FirmaAuthenticator
+#            logout:
+#                path: /profile/logout
+#                target: /
         main:
-            lazy: true
-            provider: users_in_memory
+            pattern: ^/
+            security: false
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_FIRMA:       [ROLE_FIRMA_LEVEL_1, ROLE_FIRMA_LEVEL_2, ROLE_FIRMA_LEVEL_3, ROLE_FIRMA_LEVEL_4]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin/$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/user/, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ROLE_FIRMA }
 
 when@test:
     security:

@@ -7,3 +7,10 @@ controllers:
         pl: ''
         en: '/en'
         nl: '/nl'
+admin:
+    resource:
+        path: ../src/Admin/Controller/
+        namespace: App\Admin\Controller
+    type: attribute
+    prefix: /admin
+    name_prefix: admin_

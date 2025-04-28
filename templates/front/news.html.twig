@@ -1,0 +1,16 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Z kraju i ze świata{% endblock %}
+
+{% block body %}
+    {# <h1>{{ 'jakis tekst'|upper }} Your lucky number is {{ luckyNumber }}</h1> #}
+    <p>Range: {{ range[0] }} - {{ range[1] }} (: {{ luckyNumber }})</p>
+
+    <hr>
+    <code>{{ controller_name }}</code>
+    <hr>
+    Hash: {{ message_hash }}
+    <br>
+
+    {{ parent() }}
+{% endblock %}

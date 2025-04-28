@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block body %}
+    {% if error %}
+        Error
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('admin_auth') }}" method="post">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="_email" value="" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" required>
+
+        {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"> #}
+
+        <button type="submit">login</button>
+    </form>
+{% endblock %}

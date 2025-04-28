@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Użytkownicy{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_user_add') }}">Dodaj nowy</a>
+
+    {% if app.session.flashbag.peek('success')|length > 0 %}
+        <div>
+            <span>Flash:</span><br>
+        {% for message in app.flashes('success') %}
+            {{ message }}<br>
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if elementList is defined and elementList.items %}
+        <ul data-element-list>
+        {% for item in elementList.items %}
+            <li>
+                <strong>{{ item.username }}</strong>
+                <a href="{{ path('admin_user_edit', {'id': item.id}) }}">Edytuj</a>
+                <span data-action-delete data-href="{{ path('admin_user_delete', {'id': item.id}) }}" data-redirect="{{ path('admin_user_list') }}">Usuń</span>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Brak elementów</p>
+    {% endif %}
+{% endblock %}

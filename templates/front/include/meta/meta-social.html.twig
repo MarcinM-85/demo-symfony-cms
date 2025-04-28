@@ -1,0 +1,13 @@
+{% if OGData is defined and OGData|length > 0 %}
+    {% if OGData.twitter.card %}<meta name="twitter:card" content="{{ OGData.twitter.card }}"/>{% endif %}
+    {% if OGData.title %}<meta property="og:title" content="{{ OGData.title }}"/>{% endif %}
+    {% if OGData.type %}<meta property="og:type" content="{{ OGData.type }}"/>{% endif %}
+    {% if OGData.url %}<meta property="og:url" content="{{ OGData.url }}"/>{% endif %}
+    {% if OGData.image %}
+        <meta property="og:image" content="{{ OGData.image }}"/>
+        {% if OGData.image_width %}<meta property="og:image:width" content="{{ OGData.image_width }}"/>{% endif %}
+        {% if OGData.image_height %}<meta property="og:image:height" content="{{ OGData.image_height }}"/>{% endif %}
+    {% endif %}
+    {% if OGData.site_name %}<meta property="og:site_name" content="{{ OGData.site_name }}"/>{% endif %}
+    {% if OGData.description %}<meta property="og:description" content="{{ OGData.description }}"/>{% endif %}
+{% endif %}

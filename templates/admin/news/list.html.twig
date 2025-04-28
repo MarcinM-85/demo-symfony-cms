@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}News{% endblock %}
+
+{% block body %}
+    {% if elementList is defined and elementList.items %}
+        {% for item in elementList.items %}
+            <div>{{ item.name }}</div>
+        {% endfor %}
+    {% else %}
+        <p>Brak elementów</p>
+    {% endif %}
+    
+    {% if routes is defined %}
+        {{ routes._self }}
+    {% endif %}
+{% endblock %}

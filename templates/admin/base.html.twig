@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="robots" content="noindex,nofollow">
+        <link rel="icon" href="/_gfx/ico/favicon.png">
+
+        <title>{% block title %}Staleo.pl - Panel Administracyjny{% endblock %}</title>
+
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const list = document.querySelector('[data-element-list]');
+                if (list) {
+                    list.querySelectorAll('[data-action-delete]').forEach(btn => {
+                        btn.addEventListener('click', async event => {
+                            event.preventDefault();
+
+                            let url = btn.dataset.href;
+                            if (!confirm('Na pewno chcesz usunąć?')) return;
+
+                            const formData = new FormData();
+                            try {
+                                const response = await fetch(url, {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    }
+                                });
+
+                                if (!response.ok) {
+                                    alert('Błąd podczas usuwania.');
+                                    return;
+                                }
+                                window.location.href = btn.dataset.redirect;
+{#
+                                // Usuń z DOM (jeśli chcesz)
+                                const row = btn.closest('[data-row]');
+                                if (row) row.remove();
+#}
+                            } catch (err) {
+                                console.error(err);
+                                alert('Błąd sieci.');
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
+    {% endblock %}
+</html>

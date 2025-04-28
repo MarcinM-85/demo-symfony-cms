@@ -1,0 +1,17 @@
+<title>{% block title %}Staleo.pl - {% endblock %}</title>
+
+<link rel="icon" href="/_gfx/ico/favicon.png">
+
+{% if HeadData is defined and HeadData|length>0 %}
+    {% if HeadData.description %}<meta name="description" content="{{ HeadData.description }}">{% endif %}
+    {% if HeadData.keywords %}<meta name="keywords" content="{{ HeadData.keywords }}">{% endif %}
+    {% if HeadData.canonical_url %}<link rel="canonical" href="{{ HeadData.canonical_url }}" />{% endif %}
+    {% if HeadData.seo_href_lang|length > 0 %}
+        {% for seo_key, seo_item in HeadData.seo_href_lang %}
+            <link rel="alternate" hreflang="{{ seo_key }}" href="{{ seo_item }}" />
+        {% endfor %}
+    {% endif %}
+{% endif %}
+<meta name="robots" content="index,follow">
+
+{% include 'front/include/meta/meta-social.html.twig' %}

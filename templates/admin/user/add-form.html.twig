@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dodaj użytkownika{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Dodaj nowy' }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ form_label(field) }}
+                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(field) }}
+            </div>
+        {% endfor %}
+
+        <button class="btn btn-primary">
+            {{ 'Dodaj' }}
+        </button>
+    {{ form_end(form) }}
+{% endblock %}
