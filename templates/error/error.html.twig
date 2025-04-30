@@ -1,0 +1,15 @@
+{# templates/error/error.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Error {{ code }}{% endblock %}
+
+{% block body %}
+    <h1>Error Code: {{ code }}</h1>
+
+    <code>
+        {{ request_uri }}
+    </code>
+    <p>
+        {{ message }}
+    </p>
+{% endblock %}
