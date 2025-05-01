@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Form\FormInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AbstractEntityRepository;
 
@@ -37,6 +37,23 @@ abstract class AbstractAdminController extends AbstractController
 //        return $this;
 //    }
 
+    protected function prePersistAdd( FormInterface $form ){
+        $entity = $form->getData();
+
+        return [ $entity ];
+    }
+
+    protected function prePersistEdit( FormInterface $form ){
+        $entity = $form->getData();
+
+        return [ $entity ];
+    }
+
+    protected function preEditForm( int $entityId ) {
+        $entity = $this->repository->find($entityId);
+        return $this->createForm($this->formTypeEdit, $entity);
+    }
+    
     #[Route('/{page}', name: '_list', methods: ['GET'], requirements: ['page' => Requirement::DIGITS], defaults: ['page' => 1])]
     public function list(Request $request): Response
     {
@@ -58,57 +75,43 @@ abstract class AbstractAdminController extends AbstractController
     #[Route('/add', name: '_add')]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
-        $entity = new $this->entityClass();
-        $form = $this->createForm($this->formTypeAdd, $entity);
+        $form = $this->createForm($this->formTypeAdd);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entity = $form->getData();
-            //$this->prePersist();
-                                                        $plainPassword = $form->get('plainPassword')->getData();
-                                                        $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT);
-                                                        $entity->setPassword($hashedPassword);
-                                                        $arrayRoles = $form->get('roles')->getData();
-                                                        $arrayRoles = is_array($arrayRoles) ? $arrayRoles : (array)$arrayRoles;
-                                                        $entity->setRoles( $arrayRoles );
-            $em->persist($entity);
+            $entityToPersist = $this->prePersistAdd( $form );
+                                                        
+            foreach( $entityToPersist as $entity)
+                $em->persist($entity);
             $em->flush();
-            $this->addFlash('success', 'Dodano');
+            $this->addFlash('success', 'Element dodany');
             return $this->redirectToRoute($this->routeBase.'_list');
         }
 
-        return $this->render($this->templatePath . '/add-form.html.twig', [
+        return $this->render($this->templatePath . '/add-form.html.twig', array_merge([
             'form' => $form//->createView()
-        ]);
+        ], $this->twigParams));
     }
 
     #[Route('/edit/{id}', name: '_edit')]
     public function edit(Request $request, EntityManagerInterface $em, int $id): Response
     {
-        $entity = $this->repository->find($id);
-        $form = $this->createForm($this->formTypeEdit, $entity);
+        $form = $this->preEditForm( $id );
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entity = $form->getData();
-            //$this->prePersist();
-                                                        $plainPassword = $form->get('plainPassword')->getData();
-                                                        if( !empty($plainPassword) ) {
-                                                            $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT);
-                                                            $entity->setPassword($hashedPassword);
-                                                        }
-                                                        $arrayRoles = $form->get('roles')->getData();
-                                                        $arrayRoles = is_array($arrayRoles) ? $arrayRoles : (array)$arrayRoles;
-                                                        $entity->setRoles( $arrayRoles );
-            $em->persist($entity);
+            $entityToPersist = $this->prePersistEdit( $form );
+                                                        
+            foreach( $entityToPersist as $entity)
+                $em->persist($entity);
             $em->flush();
-            //$this->addFlash('success', 'Edycja udana');
+            $this->addFlash('success', 'Element zapisany');
             return $this->redirectToRoute($this->routeBase.'_list');
         }
 
-        return $this->render($this->templatePath . '/edit-form.html.twig', [
+        return $this->render($this->templatePath . '/edit-form.html.twig', array_merge([
             'form' => $form//->createView()
-        ]);
+        ], $this->twigParams));
     }
 
     #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
@@ -120,10 +123,12 @@ abstract class AbstractAdminController extends AbstractController
         }
         
         if ($entity) {
-//            $em->remove($entity);
-//            $em->flush();
-            $this->addFlash('success', 'Usunięto');
+            $em->remove($entity);
+            $em->flush();
+            $this->addFlash('success', 'Element usunięto');
         }
-        return $this->redirectToRoute($this->routeBase.'_list');
+        return new Response(
+            '<html><body>DELETED</body></html>'
+        );
     }
 }

@@ -24,7 +24,7 @@ class UserAddType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\PasswordStrength([
-                        'minScore' => Assert\PasswordStrength::STRENGTH_STRONG,
+                        'minScore' => Assert\PasswordStrength::STRENGTH_WEAK,
                         'message' => 'Hasło jest zbyt słabe. Użyj wielkich i małych liter, cyfr, symboli. Minimalna liczba znaków to: 16',
                     ])
                 ],
