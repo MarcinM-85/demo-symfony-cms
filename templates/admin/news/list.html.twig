@@ -4,14 +4,26 @@
 
 {% block body %}
     {% if elementList is defined and elementList.items %}
-        {% for item in elementList.items %}
-            <div>{{ item.name }}</div>
-        {% endfor %}
+        <ul class="list-group" data-element-list>
+            {% for item in elementList.items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center mb-1">
+                    <div>
+                        <strong>{{ item.name }}</strong>
+                    </div>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a href="{{ path('admin_news_edit', {'id': item.id}) }}" class="btn btn-outline-primary">Edytuj</a>
+                        <button 
+                            class="btn btn-outline-danger"
+                            data-action-delete
+                            data-href="{{ path('admin_news_delete', {'id': item.id}) }}"
+                            data-redirect="{{ path('admin_news_list') }}">
+                            Usuń
+                        </button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-        <p>Brak elementów</p>
-    {% endif %}
-    
-    {% if routes is defined %}
-        {{ routes._self }}
+        <div class="alert alert-info">Brak elementów</div>
     {% endif %}
 {% endblock %}

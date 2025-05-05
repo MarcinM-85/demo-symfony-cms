@@ -1,5 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes: ['bootstrap_5_layout.html.twig']
     globals: 
         _env_secret: 'Twig-%env(APP_MY_ENV_SECRET)%'
         _env_encrypt_secret: '%env(SODIUM_ENCRYPT_SECRET)%'
