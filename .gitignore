@@ -50,11 +50,19 @@
 
 # Embedded web-server pid file
 /.web-server-pid
-nbproject
+/nbproject
 
 # Zmienne środowiskowe lokalne
 /.env.local
 /.env.prod.local
+/.env.dev.local
 
 # Produkcyjny klucz deszyfrujacy
 /config/secrets/prod/prod.decrypt.private.php
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
