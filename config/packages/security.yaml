@@ -8,11 +8,11 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
-                property: email
+                property: username
         app_firm_provider:
             entity:
                 class: App\Entity\Firma
-                property: email
+                property: username
     firewalls:
         dev:
             pattern: 
@@ -21,14 +21,27 @@ security:
         admin:
             pattern: ^/admin
             provider: app_user_provider
-            custom_authenticator: App\Admin\Security\UserAuthenticator
+            custom_authenticator: App\Security\Http\Authenticator\UserAuthenticator
+            two_factor:
+                auth_form_path: /admin/2fa
+                check_path: /admin/2fa_check
+#                post_only: true
+#                default_target_path: /
+#                always_use_default_target_path: false
+#                multi_factor: false
+#                enable_csrf: false
+
+                # If you have multiple user providers registered, Symfony's security extension requires you to configure
+                # a user provider. You're forced to configure this node, although it doesn't have any effect on the
+                # TwoFactorBundle. So set this to any of your user providers, it doesn't matter which one.
+                provider: app_user_provider
             logout:
                 path: /admin/logout
                 target: /admin
 #        profile:
 #            pattern: ^/profile
 #            provider: app_firm_provider
-#            custom_authenticator: App\Security\FirmaAuthenticator
+#            custom_authenticator: App\Security\Http\Authenticator\FirmaAuthenticator
 #            logout:
 #                path: /profile/logout
 #                target: /
@@ -45,6 +58,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin/$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/admin/user, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin/, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_FIRMA }

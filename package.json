@@ -1,0 +1,25 @@
+{
+  "name": "MySymfony",
+  "version": "1.0.0",
+  "scripts": {
+    "encore-dev": "encore dev",
+    "encore-watch": "encore dev --watch",
+    "encore-production": "encore production"
+  },
+  "dependencies": {
+    "@symfony/stimulus-bundle": "^2.24.0",
+    "bootstrap": "^5.1.3",
+    "core-js": "^3.19.1",
+    "postcss": "^8.4.6",
+    "postcss-loader": "^8.1.1",
+    "sass": "^1.42.1",
+    "sass-loader": "^16.0.5"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^5.1.0",
+    "webpack": "^5.62.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.1",
+    "webpack-notifier": "^1.15.0"
+  }
+}

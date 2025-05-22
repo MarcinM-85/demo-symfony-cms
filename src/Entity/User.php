@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\Model\EmailAuthCodeTwoFactorInterface;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+//use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,7 +15,7 @@ use Symfony\Component\Validator\Constraint as Assert;
 #[UniqueEntity(fields: ['email'], message: 'Nie można użyć tego adresu e-mail')]
 #[UniqueEntity(fields: ['username'], message: 'Nazwa użytkownika jest zajęta.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EmailAuthCodeTwoFactorInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $authCode;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => null])]
+    private ?\DateTimeImmutable $authCodeExpiresAt;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -85,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      *
-     * @return list<string>
+     * @return list<array>
      */
     public function getRoles(): array
     {
@@ -97,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param list<string> $roles
+     * @param list<array> $roles
      */
     public function setRoles(array $roles): static
     {
@@ -121,9 +130,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
+    
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->getEmail();
+    }
+    
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->authCode) {
+            throw new \LogicException('The email authentication code was not set');
+        }
+
+        return $this->authCode;
+    }
+
+    public function setEmailAuthCode(string $authCode): void
+    {
+        $this->authCode = $authCode;
+    }
+
+    public function getEmailAuthCodeExpiresAt(): ?\DateTimeImmutable
+    {
+            return $this->authCodeExpiresAt;
+//        if( !is_null($this->authCodeExpiresAt) )
+//        {
+//            return new \DateTimeImmutable($this->authCodeExpiresAt);
+//        }
+//        return null;
+    }
+
+    public function setEmailAuthCodeExpiresAt(?\DateTimeImmutable $expiresAt): void
+    {
+            $this->authCodeExpiresAt = $expiresAt;
+//        $this->authCodeExpiresAt = null;
+//
+//        if( $expiresAt instanceof DateTimeImmutable)
+//            $this->authCodeExpiresAt = $expiresAt->format('Y-m-d H:i:s');
+    }
+
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here

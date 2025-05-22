@@ -7,6 +7,10 @@ parameters:
     app.supported_locales: ['en', 'es', 'fr']
     app.parameter_env_secret: 'Services-%env(APP_MY_ENV_SECRET)%'
     app.parameter_env_encrypt_secret: '%env(SODIUM_ENCRYPT_SECRET)%'
+    app.scheb_two_factor.digits: 4
+    app.scheb_two_factor.sender_email: no-reply@example.com
+    app.scheb_two_factor.sender_name: John Doe
+    app.scheb_two_factor.template: admin/auth/2fa.html.twig
     
 services:
     # default configuration for services in *this* file
@@ -28,3 +32,30 @@ services:
     App\Service\MessageGenerator:
         arguments:
             $generateMessageHash: !closure '@App\Service\MessageHashGenerator'
+
+    #Modified 2FA Procider
+    app.scheb_two_factor.form_renderer:
+        class: Scheb\TwoFactorBundle\Security\TwoFactor\Provider\DefaultTwoFactorFormRenderer
+        arguments:
+            $twigEnvironment: '@twig'
+            $template: '%app.scheb_two_factor.template%'
+    app.scheb_two_factor.auth_code_mailer:
+#        class: Scheb\TwoFactorBundle\Mailer\SymfonyAuthCodeMailer
+        class: App\Mailer\EmailAuthCodeMailer
+        arguments:
+            $senderEmail: '%app.scheb_two_factor.sender_email%'
+            $senderName: '%app.scheb_two_factor.sender_name%'
+    app.scheb_two_factor.code_generator:
+#        class: Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Generator\CodeGenerator
+        class: App\Security\TwoFactor\Provider\EmailAuthCode\Generator\CodeGenerator
+        arguments:
+            $mailer: '@app.scheb_two_factor.auth_code_mailer'
+            $digits: '%app.scheb_two_factor.digits%'
+            $expiresAfter: 'PT5M'
+    app.admin.two_factor_provider:
+        class: App\Security\TwoFactor\EmailAuthCode\Provider\EmailAuthCodeTwoFactorProvider
+        tags:
+            - { name: scheb_two_factor.provider, alias: email_auth_code }
+        arguments:
+          $codeGenerator: '@app.scheb_two_factor.code_generator'
+          $formRenderer: '@app.scheb_two_factor.form_renderer'

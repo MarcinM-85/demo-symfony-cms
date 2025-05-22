@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}2FA{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Logowanie - kod weryfikacyjny</h2>
+
+                {% if authenticationError %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Wystąpił błąd:</strong> {{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+                    </div>
+                {% endif %}
+
+                <form action="{{ checkPathUrl }}" method="post">
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Kod:</label>
+                        <input type="code" id="code" name="_auth_code" class="form-control" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Zaloguj się</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
