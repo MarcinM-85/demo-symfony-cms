@@ -5,16 +5,12 @@ use App\Model\EmailAuthCodeTwoFactorInterface;
 use App\Security\Authentication\Exception\ExpiredTwoFactorCodeException;
 use App\Security\TwoFactor\Event\EmailAuthCodeEvents;
 use App\Security\TwoFactor\Provider\EmailAuthCode\Generator\CodeGeneratorInterface;
-//use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
-//use Scheb\TwoFactorBundle\Security\TwoFactor\Event\EmailCodeEvents;
+use Psr\Clock\ClockInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Event\TwoFactorCodeEvent;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextInterface;
-//use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\EmailTwoFactorProvider;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorProviderInterface;
-//use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Generator\CodeGeneratorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Psr\Clock\ClockInterface;
 
 class EmailAuthCodeTwoFactorProvider implements TwoFactorProviderInterface
 {

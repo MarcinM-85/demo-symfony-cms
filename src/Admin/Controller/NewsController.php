@@ -3,11 +3,11 @@
 
 namespace App\Admin\Controller;
 
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Response;
 use App\Admin\Controller\AbstractAdminController;
 use App\Entity\News;
 use App\Repository\NewsRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/news', name: 'news')]
 class NewsController extends AbstractAdminController

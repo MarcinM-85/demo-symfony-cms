@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c04a7c0ec70cfc447c7eaf3e46f46e0a",
+    "content-hash": "c4f86bb7434deae12bd3a6557698afe8",
     "packages": [
         {
             "name": "composer/semver",
@@ -2067,55 +2067,6 @@
                 "source": "https://github.com/scheb/2fa-bundle/tree/v7.9.0"
             },
             "time": "2025-04-20T11:32:24+00:00"
-        },
-        {
-            "name": "scheb/2fa-email",
-            "version": "v7.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/scheb/2fa-email.git",
-                "reference": "9f75cf9ea2705a51df16c8618c6f36a07abcab74"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-email/zipball/9f75cf9ea2705a51df16c8618c6f36a07abcab74",
-                "reference": "9f75cf9ea2705a51df16c8618c6f36a07abcab74",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
-                "scheb/2fa-bundle": "self.version"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Scheb\\TwoFactorBundle\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Scheb",
-                    "email": "me@christianscheb.de"
-                }
-            ],
-            "description": "Extends scheb/2fa-bundle with two-factor authentication via email",
-            "homepage": "https://github.com/scheb/2fa",
-            "keywords": [
-                "2fa",
-                "Authentication",
-                "email",
-                "symfony",
-                "two-factor",
-                "two-step"
-            ],
-            "support": {
-                "source": "https://github.com/scheb/2fa-email/tree/v7.9.0"
-            },
-            "time": "2025-04-20T08:38:44+00:00"
         },
         {
             "name": "symfony/asset",

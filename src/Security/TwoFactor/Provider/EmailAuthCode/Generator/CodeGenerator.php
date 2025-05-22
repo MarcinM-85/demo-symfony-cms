@@ -5,10 +5,7 @@ namespace App\Security\TwoFactor\Provider\EmailAuthCode\Generator;
 use App\Mailer\EmailAuthCodeMailerInterface;
 use App\Model\EmailAuthCodeTwoFactorInterface;
 use App\Security\TwoFactor\Provider\EmailAuthCode\Generator\CodeGeneratorInterface;
-//use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
-//use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\PersisterInterface;
-//use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Generator\CodeGeneratorInterface;
 use Psr\Clock\ClockInterface;
 use function random_int;
 

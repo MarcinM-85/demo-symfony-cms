@@ -4,8 +4,6 @@ namespace App\Mailer;
 
 use App\Mailer\EmailAuthCodeMailerInterface;
 use App\Model\EmailAuthCodeTwoFactorInterface;
-//use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
-//use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;

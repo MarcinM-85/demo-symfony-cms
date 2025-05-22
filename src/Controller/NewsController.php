@@ -3,21 +3,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Component\Routing\Requirement\EnumRequirement;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\News;
 use App\Enum\NewsCategoryEnum;
 use App\Repository\NewsRepository;
-//use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
-//use App\Service\MessageGenerator;
+use App\Service\MessageGenerator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\EnumRequirement;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class NewsController extends AbstractController
 {
-    public function __construct(protected NewsRepository $repository) {}
+    public function __construct(protected NewsRepository $repository, protected MessageGenerator $messageGenerator) {}
 
     #[Route('/z-kraju-i-ze-swiata/{enumSlug}/{page}', name: "app_page_informacje", defaults: ['page'=>1], requirements: ['enumSlug' => new EnumRequirement(NewsCategoryEnum::class), 'page'=>Requirement::DIGITS])]
     public function actionList( Request $request, NewsCategoryEnum $enumSlug = NewsCategoryEnum::Aktualnosci): Response
@@ -37,7 +36,7 @@ class NewsController extends AbstractController
             'luckyNumber' => 1,
             'range' => [0, 100],
             'controller_name' => $request->attributes->get('_controller'),
-            'message_hash' => '$messageGenerator->tmp//$messageGenerator->messageHash'
+            'message_hash' => $this->messageGenerator->messageHash//'$messageGenerator->tmp//$messageGenerator->messageHash'
         ]);
     }
 
