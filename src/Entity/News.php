@@ -28,15 +28,61 @@ class News
     {
         $this->cat = NewsCategoryEnum::Aktualnosci->id();
     }
-    
-    public function __get(string $name)
+
+    public function getId(): int
     {
-        return $this->$name ?? null;
+        return $this->id;
     }
 
-    public function __set(string $name, $value): void
+    public function getName(): ?string
     {
-        $this->$name = $value;
+        return $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getCat(): int
+    {
+        return $this->cat;
+    }
+    
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = is_null($description) ? "" : $description;
+
+        return $this;
+    }
+
+    public function setCat(int $cat): self
+    {
+        $this->cat = $cat;
+        return $this;
+    }
+    
+
+    //Helpers
+    public function getCategoryName(): string
+    {
+        return NewsCategoryEnum::fromId($this->cat)->name();
+    }
+    
+    public static function getCategoryNames(): array
+    {
+        $result = [];
+        foreach (NewsCategoryEnum::cases() as $case) {
+            $result[$case->id()] = $case->name();
+        }
+        return $result;
     }
 }
 ?>

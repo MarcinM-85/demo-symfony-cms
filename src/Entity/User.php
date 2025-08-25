@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Model\EmailAuthCodeTwoFactorInterface;
+use App\Bundle\FileGator\Model\UserInterface as FilegatorUserInterface;
+use App\Bundle\SchebTwoFactorEmail\Model\EmailAuthCodeTwoFactorInterface;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,7 @@ use Symfony\Component\Validator\Constraint as Assert;
 #[UniqueEntity(fields: ['email'], message: 'Nie można użyć tego adresu e-mail')]
 #[UniqueEntity(fields: ['username'], message: 'Nazwa użytkownika jest zajęta.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, EmailAuthCodeTwoFactorInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EmailAuthCodeTwoFactorInterface, FilegatorUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -88,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EmailAu
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->username . "({$this->email})";
+        return (string) $this->username." ({$this->email})";
     }
 
     /**
@@ -177,5 +178,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, EmailAu
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    //FileGatorBundle
+    public function getFileGatorUsername(): string
+    {
+        return $this->getUsername();
+    }
+
+    public function getFileGatorName(): string
+    {
+        return $this->getUserIdentifier();
+    }
+    
+    public function getFileGatorRole(): string
+    {
+        if( in_array('ROLE_SUPER_ADMIN',  $this->getRoles()) )
+            return 'admin';
+        else
+            return 'user';
+    }
+
+    public function getFileGatorPermissions(): array
+    {
+        if( in_array('ROLE_SUPER_ADMIN',  $this->getRoles()) )
+            return ['read', 'write', 'upload', 'download'];
+        else
+            return ['read', 'write', 'upload'];
+    }
+
+    public function getFileGatorHomedir(bool $privateRepository): string
+    {
+        return $privateRepository ? '/u-'.$this->getId() : '/';
     }
 }

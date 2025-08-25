@@ -14,6 +14,16 @@ enum NewsCategoryEnum: string {
             self::Artykuly => 3,
         };
     }
+
+    public function name(): string
+    {
+        return match ($this) {
+            self::Aktualnosci => "Aktualności",
+            self::Technologie => "Technologie",
+            self::Artykuly => "Artykuły",
+            default => ""
+        };
+    }
     
     public static function fromSlug(string $slug): ?self
     {
@@ -24,4 +34,14 @@ enum NewsCategoryEnum: string {
             default => null
         };
     }
+
+    public static function fromId(int $id): ?self
+    {
+        return match($id) {
+            1 => self::Aktualnosci,
+            2 => self::Technologie,
+            3 => self::Artykuly,
+            default => null
+        };
+    }    
 }

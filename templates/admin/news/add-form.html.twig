@@ -1,0 +1,34 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dodaj użytkownika{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="mb-0">{{ 'Dodaj nowy' }}</h1>
+                    <a href="{{ path('admin_news_list') }}" class="btn btn-outline-secondary">{{ 'Powrót' }}</a>
+                </div>
+
+                {{ form_start(form) }}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {{ form_label(field, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(field) }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid">
+                        <button class="btn btn-secondary">
+                            {{ 'Dodaj' }}
+                        </button>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

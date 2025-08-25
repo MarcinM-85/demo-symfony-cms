@@ -26,6 +26,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Bundle/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -41,19 +42,19 @@ services:
             $template: '%app.scheb_two_factor.template%'
     app.scheb_two_factor.auth_code_mailer:
 #        class: Scheb\TwoFactorBundle\Mailer\SymfonyAuthCodeMailer
-        class: App\Mailer\EmailAuthCodeMailer
+        class: App\Bundle\SchebTwoFactorEmail\Security\Provider\EmailAuthCode\Mailer\EmailAuthCodeMailer
         arguments:
             $senderEmail: '%app.scheb_two_factor.sender_email%'
             $senderName: '%app.scheb_two_factor.sender_name%'
     app.scheb_two_factor.code_generator:
 #        class: Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Email\Generator\CodeGenerator
-        class: App\Security\TwoFactor\Provider\EmailAuthCode\Generator\CodeGenerator
+        class: App\Bundle\SchebTwoFactorEmail\Security\Provider\EmailAuthCode\Generator\CodeGenerator
         arguments:
             $mailer: '@app.scheb_two_factor.auth_code_mailer'
             $digits: '%app.scheb_two_factor.digits%'
             $expiresAfter: 'PT5M'
     app.admin.two_factor_provider:
-        class: App\Security\TwoFactor\EmailAuthCode\Provider\EmailAuthCodeTwoFactorProvider
+        class: App\Bundle\SchebTwoFactorEmail\Security\Provider\EmailAuthCode\EmailAuthCodeTwoFactorProvider
         tags:
             - { name: scheb_two_factor.provider, alias: email_auth_code }
         arguments:

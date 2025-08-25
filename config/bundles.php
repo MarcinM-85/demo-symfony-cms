@@ -15,4 +15,6 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
+    App\Bundle\FileGator\FileGatorBundle::class => ['all' => true],
+    App\Bundle\SchebTwoFactorEmail\SchebTwoFactorEmailBundle::class => ['all' => true],
 ];

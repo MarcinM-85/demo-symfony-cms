@@ -1,0 +1,13 @@
+filegator:
+    lockout_attempts: 4
+    services:
+        Filegator\Services\Session\SessionStorageInterface: 
+            handler: App\Bundle\FileGator\Service\Session\SessionStorage
+        Filegator\Services\Auth\AuthInterface:
+            handler: App\Bundle\FileGator\Service\Auth\AuthAdapter
+            config:
+                private_repos: true
+
+when@test:
+    filegator:
+        lockout_attempts: 1

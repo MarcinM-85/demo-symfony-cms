@@ -3,27 +3,39 @@
 {% block title %}News{% endblock %}
 
 {% block body %}
-    {% if elementList is defined and elementList.items %}
-        <ul class="list-group" data-element-list>
-            {% for item in elementList.items %}
-                <li class="list-group-item d-flex justify-content-between align-items-center mb-1">
-                    <div>
-                        <strong>{{ item.name }}</strong>
-                    </div>
-                    <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ path('admin_news_edit', {'id': item.id}) }}" class="btn btn-outline-primary">Edytuj</a>
-                        <button 
-                            class="btn btn-outline-danger"
-                            data-action-delete
-                            data-href="{{ path('admin_news_delete', {'id': item.id}) }}"
-                            data-redirect="{{ path('admin_news_list') }}">
-                            Usuń
-                        </button>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <div class="alert alert-info">Brak elementów</div>
-    {% endif %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Lista artykułów</h1>
+            <a href="{{ path('admin_news_add') }}" class="btn btn-success">Dodaj nowy</a>
+        </div>
+
+        {% if elementList is defined and elementList.items %}
+            <ul class="list-group" data-element-list>
+                {% for item in elementList.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-1">
+                        <div class="flex-grow-1 me-3">
+                            <strong>{{ item.name }}</strong>
+                        </div>
+
+                        <!-- Kolumna z kategorią, węższa i wyrównana do prawej -->
+                        <div class="text-end pe-3 flex-shrink-0 w-auto">
+                            {{ item.getCategoryName() }}
+                        </div>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="{{ path('admin_news_edit', {'id': item.id}) }}" class="btn btn-outline-primary">Edytuj</a>
+                            <button 
+                                class="btn btn-outline-danger"
+                                data-action-delete
+                                data-href="{{ path('admin_news_delete', {'id': item.id}) }}"
+                                data-redirect="{{ path('admin_news_list') }}">
+                                Usuń
+                            </button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">Brak elementów</div>
+        {% endif %}
+    </div>
 {% endblock %}

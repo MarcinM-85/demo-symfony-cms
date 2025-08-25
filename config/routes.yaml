@@ -1,7 +1,7 @@
 controllers:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/Front/Controller/
+        namespace: App\Front\Controller
     type: attribute
     prefix:
         pl: ''

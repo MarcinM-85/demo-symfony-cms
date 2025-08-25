@@ -1,0 +1,4 @@
+filegator_bundle:
+    resource: '@FileGatorBundle/Controller/'
+    type: attribute
+    prefix: /filegator

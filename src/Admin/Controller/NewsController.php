@@ -4,8 +4,11 @@
 namespace App\Admin\Controller;
 
 use App\Admin\Controller\AbstractAdminController;
+use App\Admin\Form\NewsAddType;
+use App\Admin\Form\NewsEditType;
 use App\Entity\News;
 use App\Repository\NewsRepository;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -13,7 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class NewsController extends AbstractAdminController
 {
     protected string $entityClass = News::class;
-    protected string $formTypeAdd = '';
+    protected string $formTypeAdd = NewsAddType::class;
+    protected string $formTypeEdit = NewsEditType::class;
     protected string $templatePath = 'admin/news';
     protected string $routeBase = 'admin_news';
 
@@ -22,6 +26,14 @@ class NewsController extends AbstractAdminController
         parent::__construct($repository);
     }
 
+    protected function prePersistAdd( FormInterface $form ){
+        $entity = $form->getData();
+
+        $entity->setDescription("");
+
+        return [ $entity ];
+    }
+    
     #[Route('/cos', name: '_cos', methods: ['GET'])]
     public function cos(): Response
     {
