@@ -42,6 +42,12 @@
 # Build data
 /build/
 
+# Private
+/private/
+
+#Repository Filegator
+/public/repository/
+
 # Composer PHAR
 /composer.phar
 

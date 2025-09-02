@@ -1,5 +1,5 @@
 // assets/admin.js
-
+import './js/ckeditor/init.js';
 import './styles/admin.scss';
 
 // Prosty przykład: obsługa zdarzenia kliknięcia

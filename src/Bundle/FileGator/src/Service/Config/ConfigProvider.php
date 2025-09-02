@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 class ConfigProvider
 {
     private array $userConfig;
+    private string $projectDir;
 
     public function __construct(ParameterBagInterface $params)
     {
         $this->userConfig = $params->get('filegator.config');
+        $this->projectDir = $params->get('kernel.project_dir');
     }
 
     public function getAppEnv(){
@@ -69,7 +71,7 @@ class ConfigProvider
                     'config' => [],
                     'adapter' => function () {
                         return new Local(
-                            $this->userConfig['path'].'repository'
+                            $this->projectDir . '/public/repository' //$this->userConfig['path'].'repository'
                         );
                     },
                 ],

@@ -10,7 +10,7 @@ Encore
     // główne pliki wejściowe
     .addEntry('app', './assets/app.js')       // frontend (jeśli używasz)
     .addEntry('admin', './assets/admin.js')   // panel administracyjny
-    .addEntry('filegator', './src/Bundle/FileGator/Resources/public/frontend/main.js') // Vue Filegatora
+    //.addEntry('filegator', './src/Bundle/FileGator/Resources/public/frontend/main.js') // Vue Filegatora
 
     // pojedynczy runtime (dla optymalizacji)
     .enableSingleRuntimeChunk()

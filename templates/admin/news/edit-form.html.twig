@@ -18,7 +18,7 @@
                     {% for field in form %}
                         <div class="mb-3">
                             {{ form_label(field, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(field, {'attr': {'class': (field.vars.attr.class|default(''))}}) }}
                             {{ form_errors(field) }}
                         </div>
                     {% endfor %}

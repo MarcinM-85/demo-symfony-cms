@@ -18,7 +18,10 @@ class NewsEditType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'empty_data' => ""
+                'empty_data' => "",
+                'attr' => [
+                    'class' => 'CKEditor',
+                ]
             ])
             ->add('cat', ChoiceType::class, [
                 'choices' => array_flip( News::getCategoryNames() ),

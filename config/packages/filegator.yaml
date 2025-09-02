@@ -7,7 +7,12 @@ filegator:
             handler: App\Bundle\FileGator\Service\Auth\AuthAdapter
             config:
                 private_repos: true
-
+#        Filegator\Services\Storage\Filesystem:
+#            handler: Filegator\Services\Storage\Filesystem
+#            config: 
+#                separator: '/'
+#                config: []
+#                adapter: new \League\Flysystem\Adapter\Local(__DIR__.'/repository');
 when@test:
     filegator:
         lockout_attempts: 1
