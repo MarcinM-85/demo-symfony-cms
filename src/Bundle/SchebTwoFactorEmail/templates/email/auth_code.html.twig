@@ -1,0 +1,7 @@
+<p>Twój kod weryfikacyjny to: <b>{{ authCode }}</b></p>
+
+{% if authCodeExpiresAt is not null %}
+<p>Kod ważny do: <i>{{ authCodeExpiresAt|date("Y/m/d H:i:s") }}</i></p>
+{% else %}
+<p>Kod jest ważny bezterminowo</p>
+{% endif %}

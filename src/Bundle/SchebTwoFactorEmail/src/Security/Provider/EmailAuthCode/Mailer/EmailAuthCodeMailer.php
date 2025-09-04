@@ -21,8 +21,8 @@ class EmailAuthCodeMailer implements EmailAuthCodeMailerInterface
         private readonly Environment $twig,
         private ?string $senderEmail,
         private ?string $senderName,
-        private string $emailSubject = 'Kod Autoryzacyjny',
-        private string $emailTemplate = 'emails/auth_code.html.twig',
+        private ?string $emailSubject,
+        private ?string $emailTemplate,
     ) {
         if (null !== $senderEmail && null !== $senderName) {
             $this->senderAddress = new Address($senderEmail, $senderName);

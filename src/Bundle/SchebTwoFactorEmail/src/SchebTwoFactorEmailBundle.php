@@ -15,4 +15,8 @@ class SchebTwoFactorEmailBundle extends Bundle
 
         return $this->extension ?: null;
     }
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
 }

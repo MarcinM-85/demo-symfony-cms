@@ -1,0 +1,11 @@
+scheb_2fa_email:
+    code_generator:
+        digits: 4
+        expires_after: 'PT1M'
+    email:
+        sender_name: 'Symfony Local System'
+        sender_email: 'no-reply@example.com'
+        subject: 'Symfony Local: [Kod autoryzujący]'
+        template: 'emails/auth_code.html.twig'
+    form_renderer:
+        template: 'admin/auth/2fa.html.twig'
