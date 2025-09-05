@@ -47,6 +47,7 @@
 
 #Repository Filegator
 /public/repository/
+/public/filegator/
 
 # Composer PHAR
 /composer.phar
