@@ -26,6 +26,8 @@ final class Version20250522105954 extends AbstractMigration
         $this->addSql(<<<'SQL'
             CREATE UNIQUE INDEX UNIQ_8D93D649F85E0677 ON user (username)
         SQL);
+
+        $this->initalData();
     }
 
     public function down(Schema $schema): void
