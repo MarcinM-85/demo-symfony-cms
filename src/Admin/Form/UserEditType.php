@@ -23,7 +23,7 @@ class UserEditType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Assert\PasswordStrength([
-                        'minScore' => Assert\PasswordStrength::STRENGTH_WEAK,
+                        'minScore' => Assert\PasswordStrength::STRENGTH_STRONG,
                         'message' => 'Hasło jest zbyt słabe. Użyj wielkich i małych liter, cyfr, symboli. Minimalna liczba znaków to: 16',
                     ])
                 ],

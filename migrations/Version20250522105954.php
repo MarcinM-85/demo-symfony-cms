@@ -38,4 +38,14 @@ final class Version20250522105954 extends AbstractMigration
             ALTER TABLE user DROP auth_code_expires_at, CHANGE roles roles JSON NOT NULL COMMENT '(DC2Type:json)', CHANGE auth_code auth_code VARCHAR(255) NOT NULL
         SQL);
     }
+    
+    protected function initalData(): void
+    {
+        $this->addSql(<<<'SQL'
+            INSERT INTO role (username, password, email, roles) VALUES ('headadmin', '$2y$13$RlaW3hcWv0oZBBeddj.EsO2P/IRA6U2rc7r0hBui1vKigdxFgNlTS', 'headadmin@example.com', 'ROLE_SUPER_ADMIN')
+        SQL);
+        $this->addSql(<<<'SQL'
+            INSERT INTO role (username, password, email, roles) VALUES ('admin', '$2y$13$aJYtM/9HybZgQ/22wInfpe8lZpxWrDtIOFUBfDOoIJPh.MLSNkPba', 'admin@example.com', 'ROLE_ADMIN')
+        SQL);
+    }
 }
