@@ -2,7 +2,7 @@ Migracja bazy danych zawiera dane logowania:
 1. Konto headadmin / PasswordHeadadmin#123 [SUPER_ADMIN_ROLE]
 2. Konto admin / PasswordAdmin#123 [ADMIN_ROLE]
 
-Konto SUPER_ADMIN_ROLE ma możliwość tworzenia nowych kont do panelu Administracyjnego
+Konto SUPER_ADMIN_ROLE z możliwością tworzenia nowych kont do Panelu Administracyjnego
 
 ################################################################################
 
@@ -10,3 +10,15 @@ W katalogu /public należy utworzyć dowiązanie symboliczne o nazwie "filegator
 W katalogu /public należy utworzyć folder "repository", w którym przechowywane są pliki wgrywane przez użytkowników
 
 ################################################################################
+Wymagania:
+Node 16.20.2
+
+Migracja Doctrine ORM:
+- php bin/console doctrine:migrations:migrate
+
+Instalacja zależności z Composer: 
+- composer install
+
+Kompilacja webpack:
+- ENV=prod: npm run encore-production
+- ENV=dev: npm run encore-dev

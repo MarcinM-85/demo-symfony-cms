@@ -1,0 +1,14 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block body %}
+    <p>Szablon strony głównej</p>
+    <hr>
+    <code>{{ controller_name }}</code>
+    <hr>
+    Hash: {{ message_hash }}
+    <br>
+
+    {{ parent() }}
+{% endblock %}

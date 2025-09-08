@@ -22,7 +22,7 @@ class FileGatorController extends AbstractController
     public function __construct(protected ParameterBagInterface $parameterBag) { }
     
     #[Route('/{path}', name: 'filegator', requirements: ['path' => '.*'])]
-    public function proxy(Request $request, string $path = '', FileGatorAppFactory $factory): Response
+    public function proxy(Request $request, FileGatorAppFactory $factory, string $path = ''): Response
     {
         $this->denyAccessUnlessGranted( 'ROLE_ADMIN', NULL, 'Brak uprawnień do przeglądania zawartości');
 

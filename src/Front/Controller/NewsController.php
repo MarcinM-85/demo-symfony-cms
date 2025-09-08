@@ -28,7 +28,7 @@ class NewsController extends AbstractController
 //        var_dump($request->attributes);
 //        var_dump($request->attributes->get('page'));
 
-        return $this->render('front/news.html.twig', [
+        return $this->render('front/news/news.html.twig', [
             'config' => [
                 'parameter_env_secret' => $this->getParameter('app.parameter_env_secret'),
                 'parameter_env_encrypt_secret' => $this->getParameter('app.parameter_env_encrypt_secret')
@@ -46,7 +46,7 @@ class NewsController extends AbstractController
         var_dump( $enumSlug );
         echo 'ENTRY';
 
-        return $this->render('front/page.html.twig', [
+        return $this->render('front/news/page.html.twig', [
             'config' => [
                 'parameter_env_secret' => $this->getParameter('app.parameter_env_secret'),
                 'parameter_env_encrypt_secret' => $this->getParameter('app.parameter_env_encrypt_secret')
