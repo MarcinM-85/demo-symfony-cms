@@ -1,0 +1,13 @@
+{
+  "entrypoints": {
+    "admin": {
+      "js": [
+        "/webpack/runtime.53f6d0b3.js",
+        "/webpack/admin.827e3a6f.js"
+      ],
+      "css": [
+        "/webpack/admin.f93bfd95.css"
+      ]
+    }
+  }
+}

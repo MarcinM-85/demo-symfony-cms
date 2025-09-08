@@ -3,14 +3,13 @@ const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
 
 Encore
     // katalog, gdzie będą zapisywane pliki wynikowe
-    .setOutputPath(Encore.isProduction() ? 'public/build/' : 'public/build/dev/')
+    .setOutputPath(Encore.isProduction() ? 'public/webpack/' : 'public/dev/')
     // ścieżka publiczna używana w znacznikach <script src="">
-    .setPublicPath(Encore.isProduction() ? '/build' : '/build/dev')
+    .setPublicPath(Encore.isProduction() ? '/webpack' : '/dev')
 
     // główne pliki wejściowe
-    .addEntry('app', './assets/app.js')       // frontend (jeśli używasz)
+    //.addEntry('app', './assets/app.js')       // frontend (jeśli używasz)
     .addEntry('admin', './assets/admin.js')   // panel administracyjny
-    //.addEntry('filegator', './src/Bundle/FileGator/Resources/public/frontend/main.js') // Vue Filegatora
 
     // pojedynczy runtime (dla optymalizacji)
     .enableSingleRuntimeChunk()
