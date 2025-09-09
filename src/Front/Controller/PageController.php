@@ -3,6 +3,7 @@
 
 namespace App\Front\Controller;
 
+use App\Repository\NewsRepository;
 use App\Service\MessageGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +15,21 @@ class PageController extends AbstractController
     public function __construct(protected MessageGenerator $messageGenerator) {}
 
     #[Route('/', name: "app_page_home")]
-    public function actionList( Request $request): Response
+    public function actionList( Request $request, NewsRepository $newsRepository): Response
     {
+        $eParams = [
+            'sql' => [
+                'select' => 'e',
+                'order' => ['e.id' => 'ASC']
+            ],
+            'paginate' => true,
+            'page' => $request->attributes->get('page'),
+            'page_limit' => 2
+        ];
+        $newsElementList = $newsRepository->getList($eParams);
+        
         return $this->render('front/page/index.html.twig', [
+            'latestNewsElementList' => $newsElementList,
             'config' => [
                 'parameter_env_secret' => $this->getParameter('app.parameter_env_secret'),
                 'parameter_env_encrypt_secret' => $this->getParameter('app.parameter_env_encrypt_secret')

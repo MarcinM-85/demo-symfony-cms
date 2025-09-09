@@ -8,7 +8,7 @@ Encore
     .setPublicPath(Encore.isProduction() ? '/webpack' : '/dev')
 
     // główne pliki wejściowe
-    //.addEntry('app', './assets/app.js')       // frontend (jeśli używasz)
+    .addEntry('app', './assets/app.js')       // frontend (jeśli używasz)
     .addEntry('admin', './assets/admin.js')   // panel administracyjny
 
     // pojedynczy runtime (dla optymalizacji)

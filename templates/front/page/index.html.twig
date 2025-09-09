@@ -1,14 +1,55 @@
 {% extends 'front/base.html.twig' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Strona główna{% endblock %}
 
 {% block body %}
-    <p>Szablon strony głównej</p>
-    <hr>
-    <code>{{ controller_name }}</code>
-    <hr>
-    Hash: {{ message_hash }}
-    <br>
+    {% if latestNewsElementList.items is defined and latestNewsElementList.items %}
+    <section id="latest-articles" class="latest-articles py-5 bg-light">
+        <div class="container">
+            <h1 class="mb-4 text-center">Najnowsze artykuły</h1>
 
-    {{ parent() }}
+            <div class="row g-4">
+                {% for newsItem in latestNewsElementList.items %}
+                    <div class="col-md-4">
+                        <article class="card h-100 shadow-sm border-0">
+                            <div class="card-body d-flex flex-column">
+                                <h2 class="card-title h5">{{ newsItem.name }}</h2>
+                                <p class="card-text text-muted flex-grow-1">
+                                    {{ newsItem.description }}
+                                </p>
+                                <a href="{{ path('app_page_news_entry', { enumSlug: newsItem.enumSlug.value, id: newsItem.id, entry: newsItem.name|slugify }) }}" 
+                                   class="btn btn-primary mt-3 align-self-start">
+                                    Czytaj więcej
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                {% else %}
+                    {#
+                    <div class="col-12">
+                        <p class="text-center text-muted">Brak artykułów do wyświetlenia.</p>
+                    </div>
+                    #}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="py-4 bg-white">
+        <div class="container text-center">
+            <div class="mb-3">
+                <strong>Kontroler:</strong> <code>{{ controller_name }}</code>
+            </div>
+            <div>
+                <strong>Hash:</strong> <code>{{ message_hash }}</code>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4 bg-light">
+        <div class="container">
+            {{ parent() }}
+        </div>
+    </section>
 {% endblock %}

@@ -21,6 +21,9 @@ class News
     #[ORM\Column(type: 'text')]
     private string $description;
 
+    #[ORM\Column(type: 'text')]
+    private string $content;
+
     #[ORM\Column(type: 'integer', options: ["unsigned" => true])]
     private int $cat;
 
@@ -44,6 +47,11 @@ class News
         return $this->description;
     }
 
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
     public function getCat(): int
     {
         return $this->cat;
@@ -59,6 +67,13 @@ class News
     public function setDescription(?string $description): self
     {
         $this->description = is_null($description) ? "" : $description;
+
+        return $this;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = is_null($content) ? "" : $content;
 
         return $this;
     }

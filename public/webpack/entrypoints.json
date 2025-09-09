@@ -1,12 +1,21 @@
 {
   "entrypoints": {
+    "app": {
+      "js": [
+        "/webpack/runtime.53f6d0b3.js",
+        "/webpack/app.a7a18f6f.js"
+      ],
+      "css": [
+        "/webpack/app.936d3293.css"
+      ]
+    },
     "admin": {
       "js": [
         "/webpack/runtime.53f6d0b3.js",
         "/webpack/admin.827e3a6f.js"
       ],
       "css": [
-        "/webpack/admin.f93bfd95.css"
+        "/webpack/admin.de9a66c0.css"
       ]
     }
   }

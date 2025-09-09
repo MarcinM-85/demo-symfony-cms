@@ -5,6 +5,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppTwigExtension extends AbstractExtension
@@ -15,7 +16,13 @@ class AppTwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction('is_controller', [$this, 'isController']),
-            new TwigFunction('default_admin_menu', [$this, 'getDefaultAdminMenu']),
+            new TwigFunction('default_admin_menu', [$this, 'getDefaultAdminMenu'])        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('slugify', [$this, 'slugify'])
         ];
     }
 
@@ -55,5 +62,19 @@ class AppTwigExtension extends AbstractExtension
         }
 
         return $menuData;
+    }
+
+    public function slugify(string $text): string
+    {
+        // transliteracja (usuwa diakrytyki)
+        $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
+        // zamiana na małe litery
+        $text = strtolower($text);
+        // zamiana spacji i niedozwolonych znaków na "-"
+        $text = preg_replace('/[^a-z0-9]+/', '-', $text);
+        // usunięcie nadmiarowych "-"
+        $text = trim($text, '-');
+
+        return $text;
     }
 }

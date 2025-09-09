@@ -18,43 +18,64 @@ class NewsController extends AbstractController
 {
     public function __construct(protected NewsRepository $repository, protected MessageGenerator $messageGenerator) {}
 
-    #[Route('/z-kraju-i-ze-swiata/{enumSlug}/{page}', name: "app_page_informacje", defaults: ['page'=>1], requirements: ['enumSlug' => new EnumRequirement(NewsCategoryEnum::class), 'page'=>Requirement::DIGITS])]
-    public function actionList( Request $request, NewsCategoryEnum $enumSlug = NewsCategoryEnum::Aktualnosci): Response
+    #[Route('/z-kraju-i-ze-swiata', name: 'app_page_news_default')]
+    #[Route('/z-kraju-i-ze-swiata/{enumSlug}/{page}', name: "app_page_news", defaults: ['page'=>1], requirements: ['enumSlug' => new EnumRequirement(NewsCategoryEnum::class), 'page'=>Requirement::DIGITS])]
+    public function actionList( Request $request, ?NewsCategoryEnum $enumSlug = null): Response
     {
-//        var_dump( NewsCategoryEnum::Technologie->id() );
-//        var_dump( $enumSlug->id() );
-//        var_dump( $enumSlug->value );
-        
-//        var_dump($request->attributes);
-//        var_dump($request->attributes->get('page'));
-
-        return $this->render('front/news/news.html.twig', [
-            'config' => [
-                'parameter_env_secret' => $this->getParameter('app.parameter_env_secret'),
-                'parameter_env_encrypt_secret' => $this->getParameter('app.parameter_env_encrypt_secret')
+        if( is_null($enumSlug) ){
+            return $this->redirectToRoute('app_page_news', [
+                'enumSlug' => NewsCategoryEnum::Aktualnosci->value
+            ]);
+        }
+        $eParams = [
+            'sql' => [
+                'select' => 'e',
+                'order' => ['e.id' => 'ASC'],
+                'where' => [
+                    [
+                        'field' => 'e.cat',
+                        'operator' => '=',
+                        'value' => $enumSlug->id()
+                    ]
+                ]
             ],
-            'luckyNumber' => 1,
-            'range' => [0, 100],
-            'controller_name' => $request->attributes->get('_controller'),
-            'message_hash' => $this->messageGenerator->messageHash//'$messageGenerator->tmp//$messageGenerator->messageHash'
+            'paginate' => true,
+            'page' => $request->attributes->get('page'),
+            'page_limit' => 1
+        ];
+        $newsElementList = $this->repository->getList($eParams);
+
+//        dump( NewsCategoryEnum::Technologie->id() );
+//        dump( $enumSlug->id() );
+//        dump( $enumSlug->value );
+        
+//        dump($request->attributes);
+//        dump($request->attributes->get('page'));
+//        dump(NewsCategoryEnum::cases());
+
+        return $this->render('front/news/list.html.twig', [
+            'newsCategoryEnumCases'=> NewsCategoryEnum::cases(),
+            'newsElementList' => $newsElementList,
+            '_routeParams' => $request->attributes->get('_route_params'),
         ]);
     }
 
-    #[Route('/z-kraju-i-ze-swiata/{enumSlug}/{entry}', name: "app_page_informacje_entry", defaults: [], requirements: ['enumSlug' => new EnumRequirement(NewsCategoryEnum::class), 'entry'=>Requirement::ASCII_SLUG])]
+    #[Route('/z-kraju-i-ze-swiata/{enumSlug}/{id}-{entry}', name: "app_page_news_entry", defaults: [], requirements: ['enumSlug' => new EnumRequirement(NewsCategoryEnum::class), 'id' => Requirement::DIGITS, 'entry'=>Requirement::ASCII_SLUG])]
     public function actionEntry( Request $request, NewsCategoryEnum $enumSlug): Response
     {
-        var_dump( $enumSlug );
-        echo 'ENTRY';
+        // Pobranie artykułu po slug + kategorii (enum)
+        $newsEntry = $this->repository->findOneBy([
+            'id' => $request->attributes->get('id'),
+            'cat' => $enumSlug->id(),
+        ]);
 
-        return $this->render('front/news/page.html.twig', [
-            'config' => [
-                'parameter_env_secret' => $this->getParameter('app.parameter_env_secret'),
-                'parameter_env_encrypt_secret' => $this->getParameter('app.parameter_env_encrypt_secret')
-            ],
-            'luckyNumber' => 1,
-            'range' => [0, 100],
-            'controller_name' => $request->attributes->get('_controller'),
-            'message_hash' => '$messageGenerator->tmp//$messageGenerator->messageHash'
+        if (!$newsEntry) {
+            throw $this->createNotFoundException('Nie znaleziono artykułu.');
+        }
+
+        return $this->render('front/news/entry.html.twig', [
+            'newsEntry' => $newsEntry,
+            '_routeParams' => $request->attributes->get('_route_params'),
         ]);
     }
 }

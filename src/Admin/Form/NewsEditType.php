@@ -19,6 +19,11 @@ class NewsEditType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'empty_data' => "",
+                'attr' => []
+            ])
+            ->add('content', TextareaType::class, [
+                'required' => false,
+                'empty_data' => "",
                 'attr' => [
                     'class' => 'CKEditor',
                 ]

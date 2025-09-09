@@ -1,5 +1,7 @@
 {
-  "webpack/admin.css": "/webpack/admin.f93bfd95.css",
+  "webpack/app.css": "/webpack/app.936d3293.css",
+  "webpack/app.js": "/webpack/app.a7a18f6f.js",
+  "webpack/admin.css": "/webpack/admin.de9a66c0.css",
   "webpack/admin.js": "/webpack/admin.827e3a6f.js",
   "webpack/runtime.js": "/webpack/runtime.53f6d0b3.js"
 }

@@ -1,0 +1,22 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <section id="article" class="article py-5">
+        <div class="container">
+            <h1 class="mb-4">{{ newsEntry.name }}</h1>
+
+            <div class="content card p-4 mb-4 shadow-sm border-0">
+                {{ newsEntry.content|raw }}
+            </div>
+
+            <div class="back-link">
+                <a href="{{ path('app_page_news', {enumSlug: _routeParams.enumSlug}) }}" 
+                   class="btn btn-secondary">
+                    ← Powrót do listy artykułów
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
